@@ -1,13 +1,21 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 // Swing Program Template
 //@SuppressWarnings("serial")
-public class SwingTemplate extends JFrame {
+public class SwingTemplate {
     // Name-constants to define the various dimensions
-    //public static final int WINDOW_WIDTH = 300;
-    //public static final int WINDOW_HEIGHT = 150;
+    public File[] list;
+    public JFrame frame;
+    public JPanel panel;
+    public JLabel imageLabel;
+    public Timer waitTimer;
+    public Timer flashTimer;
     // ......
 
     // private variables of UI components
@@ -16,17 +24,50 @@ public class SwingTemplate extends JFrame {
     /** Constructor to setup the UI components */
     public SwingTemplate() {
 
+        frame = new JFrame();
+        panel = new JPanel();
+
+        waitTimer = new Timer(5000, new WaitForImage());
+
+        flashTimer = new Timer(2000, new FlashImage());
+
         initUI();
 
+    }
+
+    /**
+     * Step before shows the text "Next image in 5 seconds"
+     * This waits 5 seconds
+     * Then shows the image and starts next timer
+     */
+    class WaitForImage implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            System.out.println("asdf");
+
+        }
+    }
+
+    /**
+     * Step before shows the image
+     * This waits short time
+     * Then hides the image and pulls up input box
+     */
+    class FlashImage implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            System.out.println("asdf");
+
+        }
     }
 
     private void initUI(){
         createMenuBar();
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);  // Exit when close button clicked
-        setTitle("Pilot Test"); // "this" JFrame sets title
-        setExtendedState(MAXIMIZED_BOTH);
-        setVisible(true);   // show it
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);  // Exit when close button clicked
+        frame.setTitle("Pilot Test"); // "this" JFrame sets title
+        frame.setExtendedState(frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);   // show it
     }
 
     private void createMenuBar() {
@@ -61,11 +102,54 @@ public class SwingTemplate extends JFrame {
         file.add(sMenuItem);
         menubar.add(file);
 
-        setJMenuBar(menubar);
+        frame.setJMenuBar(menubar);
 
     }
 
     private void startTest() {
+        
+        initTest();
+        try {
+            testingLoop();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void testingLoop() throws IOException {
+
+
+
+        for(File file : list) {
+            System.out.println("test");
+            ImageIcon image = new ImageIcon(file.getAbsolutePath());
+            imageLabel = new JLabel(image);
+            panel.add(imageLabel);
+            frame.add(panel);
+            frame.revalidate();
+
+            //timer.setRepeats(false);
+            //timer.start();
+            //
+            System.out.println("after");
+
+
+        }
+
+    }
+
+    private void initTest() {
+
+        File f = new File("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\images");
+        list = f.listFiles();
+        //TODO shuffle array
+        /*
+        for(File file : list) {
+            System.out.println(file.getName());
+        }
+        */
 
     }
 
