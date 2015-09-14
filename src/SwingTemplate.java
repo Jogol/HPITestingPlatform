@@ -1,8 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -11,27 +19,106 @@ import javax.swing.*;
 public class SwingTemplate {
     // Name-constants to define the various dimensions
     public File[] list;
+    public ArrayList<File> aList;
     public JFrame frame;
     public JPanel panel;
     public JLabel imageLabel;
+    public ImageIcon image;
+    public JLabel waitLabel;
+    public JTextField inputBox;
+    public final int waitTime = 2000;
+    public final int flashTime = 1000;
     public Timer waitTimer;
     public Timer flashTimer;
+    public File currentFile;
+    public PrintWriter writer;
+    public BufferedWriter bw;
+    public FileWriter fw;
     // ......
 
     // private variables of UI components
     // ......
 
-    /** Constructor to setup the UI components */
-    public SwingTemplate() {
+    /** Constructor to setup the UI components 
+     *
+     */
+    public SwingTemplate(){
 
         frame = new JFrame();
         panel = new JPanel();
+        frame.add(panel);
+        waitLabel = new JLabel("An image will appear shortly");
+        panel.add(waitLabel);
+        waitLabel.setVisible(false);
+        inputBox = new JTextField(20);
+        inputBox.setVisible(false);
+        panel.add(inputBox);
+        inputBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                handleInput(inputBox.getText());
+                inputBox.setVisible(false);
+                inputBox.setText("");
+                frame.revalidate();
+                try {
+                    testWarning();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        waitTimer = new Timer(5000, new WaitForImage());
+        try {
+            fw = new FileWriter("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\results\\resultFile.txt");
+            bw = new BufferedWriter(fw);
 
-        flashTimer = new Timer(2000, new FlashImage());
+            //writer = new PrintWriter("/afs/nada.kth.se/home/7/u1k944b7/Desktop/results/resultFile.txt", "UTF-8");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        waitTimer = new Timer(waitTime, new WaitForImage());
+
+        waitTimer.setRepeats(false);
+
+        flashTimer = new Timer(flashTime, new FlashImage());
+
+        flashTimer.setRepeats(false);
 
         initUI();
+
+    }
+
+    public void handleInput(String text) {
+        //TODO handle text
+        Boolean correct = false;
+
+        String fullName = currentFile.getName();
+        String[] parts = fullName.split("_|\\.");
+
+        if(text.toLowerCase().equals(parts[0])) {
+            correct = true;
+        }
+
+        try {
+            bw.write(parts[0] + " " + parts[1] + " " + correct.toString() + "\n");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+//    	writer.println(parts[0] + " " + parts[1] + " " + correct.toString());
+//      	writer.println("test");
+        System.out.println("handler");
+
 
     }
 
@@ -43,7 +130,15 @@ public class SwingTemplate {
     class WaitForImage implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
-            System.out.println("asdf");
+            System.out.println("waittimer triggered");
+            image = new ImageIcon(currentFile.getAbsolutePath());
+            imageLabel = new JLabel(image);
+            //panel.remove(waitLabel);
+            waitLabel.setVisible(false);
+            panel.add(imageLabel);
+            frame.revalidate();
+            flashTimer.restart();
+
 
         }
     }
@@ -56,11 +151,18 @@ public class SwingTemplate {
     class FlashImage implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
-            System.out.println("asdf");
+            System.out.println("flashtimer triggered");
+            imageLabel.setIcon(null);
+            //imageLabel.setVisible(false);
+
+            inputBox.setVisible(true);
+            inputBox.requestFocus();
+            frame.revalidate();
 
         }
     }
 
+    @SuppressWarnings("static-access")
     private void initUI(){
         createMenuBar();
 
@@ -78,12 +180,13 @@ public class SwingTemplate {
         JMenu file = new JMenu("File");
         file.setMnemonic(KeyEvent.VK_F);
 
-        JMenuItem sMenuItem = new JMenuItem("Start Test");
-        sMenuItem.setMnemonic(KeyEvent.VK_S);
-        sMenuItem.setToolTipText("Start the experiment");
-        sMenuItem.addActionListener(new ActionListener() {
+        JMenuItem sMenu = new JMenuItem("Start Test");
+        sMenu.setMnemonic(KeyEvent.VK_S);
+        sMenu.setToolTipText("Start the experiment");
+        sMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                System.out.println("Started");
                 startTest();
             }
         });
@@ -99,18 +202,18 @@ public class SwingTemplate {
         });
 
         file.add(eMenuItem);
-        file.add(sMenuItem);
         menubar.add(file);
+        menubar.add(sMenu);
 
         frame.setJMenuBar(menubar);
 
     }
 
     private void startTest() {
-        
+
         initTest();
         try {
-            testingLoop();
+            testWarning();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,34 +221,51 @@ public class SwingTemplate {
 
     }
 
-    private void testingLoop() throws IOException { //TODO loop?
+    private void testWarning() throws IOException { //TODO loop?
 
-        File file = list[0]; //TODO
+        if(aList.size() > 0) {
+            currentFile = aList.get(0); //TODO kolla om det finns bilder kvar
+            aList.remove(0);
 
-        System.out.println("test");
-        ImageIcon image = new ImageIcon(file.getAbsolutePath());
-        imageLabel = new JLabel(image);
-        panel.add(imageLabel);
-        frame.add(panel);
-        frame.revalidate();
+            System.out.println("test");
+            waitLabel.setVisible(true);
+            frame.revalidate();
+            waitTimer.restart();
 
-        //timer.setRepeats(false);
-        //timer.start();
-        //
-        System.out.println("after");
+            System.out.println("after");
+        } else {
+            testEnd();
+        }
 
+
+
+
+    }
+
+    public void testEnd() {
+        System.out.println("test end");
+        try {
+            bw.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //writer.close();
     }
 
     private void initTest() {
 
         File f = new File("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\images");
         list = f.listFiles();
+        aList = new ArrayList<File>();
         //TODO shuffle array
-        /*
+
         for(File file : list) {
-            System.out.println(file.getName());
+            aList.add(file);
         }
-        */
+
+        Collections.shuffle(aList);
+
 
     }
 
