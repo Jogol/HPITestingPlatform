@@ -118,25 +118,21 @@ public class SwingTemplate {
 
     }
 
-    private void testingLoop() throws IOException {
+    private void testingLoop() throws IOException { //TODO loop?
 
+        File file = list[0]; //TODO
 
+        System.out.println("test");
+        ImageIcon image = new ImageIcon(file.getAbsolutePath());
+        imageLabel = new JLabel(image);
+        panel.add(imageLabel);
+        frame.add(panel);
+        frame.revalidate();
 
-        for(File file : list) {
-            System.out.println("test");
-            ImageIcon image = new ImageIcon(file.getAbsolutePath());
-            imageLabel = new JLabel(image);
-            panel.add(imageLabel);
-            frame.add(panel);
-            frame.revalidate();
-
-            //timer.setRepeats(false);
-            //timer.start();
-            //
-            System.out.println("after");
-
-
-        }
+        //timer.setRepeats(false);
+        //timer.start();
+        //
+        System.out.println("after");
 
     }
 
