@@ -18,6 +18,14 @@ import javax.swing.*;
 //@SuppressWarnings("serial")
 public class SwingTemplate {
     // Name-constants to define the various dimensions
+
+    /**
+     * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte flytta runt i GridBagConstraints layout :/
+     * så den ligger helt fel.
+     */
+    // public int completedImages = 0;
+    // public int totalImages = 0;
+
     public File[] list;
     public ArrayList<File> aList;
     public JFrame frame;
@@ -25,6 +33,7 @@ public class SwingTemplate {
     public JLabel imageLabel;
     public ImageIcon image;
     public JLabel waitLabel;
+    public JLabel counter;
     public JTextField inputBox;
     public final int waitTime = 2000;
     public final int flashTime = 1000;
@@ -34,6 +43,7 @@ public class SwingTemplate {
     public PrintWriter writer;
     public BufferedWriter bw;
     public FileWriter fw;
+    public String mainPath = "D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\";
     // ......
 
     // private variables of UI components
@@ -45,14 +55,21 @@ public class SwingTemplate {
     public SwingTemplate(){
 
         frame = new JFrame();
-        panel = new JPanel();
+        frame.getContentPane().setLayout(new BorderLayout());
+        panel = new JPanel(new GridBagLayout());
+
         frame.add(panel);
+
         waitLabel = new JLabel("An image will appear shortly");
-        panel.add(waitLabel);
+        panel.add(waitLabel, new GridBagConstraints());
+        waitLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         waitLabel.setVisible(false);
+
         inputBox = new JTextField(20);
+        inputBox.setFont(new Font("Arial", Font.PLAIN, 30));
         inputBox.setVisible(false);
-        panel.add(inputBox);
+        panel.add(inputBox, new GridBagConstraints());
+        inputBox.setAlignmentY(0.5f);
         inputBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -69,8 +86,19 @@ public class SwingTemplate {
             }
         });
 
+        /**
+         * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte flytta runt i GridBagConstraints layout :/
+         * så den ligger helt fel.
+         */
+        // counter = new JLabel("");
+        // panel.add(counter);
+        // counter.setVisible(false);
+
+
+
+
         try {
-            fw = new FileWriter("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\results\\resultFile.txt");
+            fw = new FileWriter(mainPath + "\\results\\resultFile.txt");
             bw = new BufferedWriter(fw);
 
             //writer = new PrintWriter("/afs/nada.kth.se/home/7/u1k944b7/Desktop/results/resultFile.txt", "UTF-8");
@@ -109,7 +137,7 @@ public class SwingTemplate {
         }
 
         try {
-            bw.write(parts[0] + " " + parts[1] + " " + correct.toString() + "\n");
+            bw.write(parts[0] + " " + parts[1] + " " + correct.toString() +  " " + text.toLowerCase() + "\n");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -135,7 +163,7 @@ public class SwingTemplate {
             imageLabel = new JLabel(image);
             //panel.remove(waitLabel);
             waitLabel.setVisible(false);
-            panel.add(imageLabel);
+            panel.add(imageLabel, new GridBagConstraints());
             frame.revalidate();
             flashTimer.restart();
 
@@ -227,6 +255,12 @@ public class SwingTemplate {
             currentFile = aList.get(0); //TODO kolla om det finns bilder kvar
             aList.remove(0);
 
+            /**
+             * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte flytta runt i GridBagConstraints layout :/
+             * så den ligger helt fel.
+             */
+            //counter.setText(completedImages++ + "/" + totalImages);
+
             System.out.println("test");
             waitLabel.setVisible(true);
             frame.revalidate();
@@ -255,8 +289,16 @@ public class SwingTemplate {
 
     private void initTest() {
 
-        File f = new File("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\images");
+        File f = new File(mainPath + "images");
         list = f.listFiles();
+
+        /**
+         * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte flytta runt i GridBagConstraints layout :/
+         * så den ligger helt fel.
+         */
+        // counter.setVisible(true);
+        //  totalImages = list.length;
+
         aList = new ArrayList<File>();
         //TODO shuffle array
 

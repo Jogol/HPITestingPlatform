@@ -26,17 +26,17 @@
       <file leaf-file-name="SwingTemplate.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SwingTemplate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51088536">
-              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.32656023">
+              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1548#2057#0" expanded="true" />
-                <element signature="e#2056#2057#0" expanded="true" />
-                <element signature="e#4752#4786#0" expanded="true" />
-                <element signature="e#5525#5730#0" expanded="true" />
-                <element signature="e#5729#5730#0" expanded="true" />
-                <element signature="e#5929#6090#0" expanded="true" />
-                <element signature="e#6089#6090#0" expanded="true" />
+                <element signature="e#2197#2706#0" expanded="true" />
+                <element signature="e#2705#2706#0" expanded="true" />
+                <element signature="e#5706#5740#0" expanded="true" />
+                <element signature="e#6479#6684#0" expanded="true" />
+                <element signature="e#6683#6684#0" expanded="true" />
+                <element signature="e#6883#7044#0" expanded="true" />
+                <element signature="e#7043#7044#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,9 +105,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -142,6 +141,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -446,11 +446,12 @@
       <workItem from="1442152605683" duration="13359000" />
       <workItem from="1442223028412" duration="1307000" />
       <workItem from="1442269012170" duration="966000" />
+      <workItem from="1442323674263" duration="829000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22076000" />
+    <option name="totallyTimeSpent" value="22905000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -511,13 +512,13 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1548#2057#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#4752#4786#0" expanded="true" />
-            <element signature="e#5525#5730#0" expanded="true" />
-            <element signature="e#5729#5730#0" expanded="true" />
-            <element signature="e#5929#6090#0" expanded="true" />
-            <element signature="e#6089#6090#0" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -528,13 +529,13 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1548#2057#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#4752#4786#0" expanded="true" />
-            <element signature="e#5525#5730#0" expanded="true" />
-            <element signature="e#5729#5730#0" expanded="true" />
-            <element signature="e#5929#6090#0" expanded="true" />
-            <element signature="e#6089#6090#0" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -545,13 +546,13 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1548#2057#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#4752#4786#0" expanded="true" />
-            <element signature="e#5525#5730#0" expanded="true" />
-            <element signature="e#5729#5730#0" expanded="true" />
-            <element signature="e#5929#6090#0" expanded="true" />
-            <element signature="e#6089#6090#0" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -562,30 +563,47 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1548#2057#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#4752#4786#0" expanded="true" />
-            <element signature="e#5525#5730#0" expanded="true" />
-            <element signature="e#5729#5730#0" expanded="true" />
-            <element signature="e#5929#6090#0" expanded="true" />
-            <element signature="e#6089#6090#0" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SwingTemplate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51088536">
-          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1548#2057#0" expanded="true" />
-            <element signature="e#2056#2057#0" expanded="true" />
-            <element signature="e#4752#4786#0" expanded="true" />
-            <element signature="e#5525#5730#0" expanded="true" />
-            <element signature="e#5729#5730#0" expanded="true" />
-            <element signature="e#5929#6090#0" expanded="true" />
-            <element signature="e#6089#6090#0" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SwingTemplate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32656023">
+          <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2197#2706#0" expanded="true" />
+            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5706#5740#0" expanded="true" />
+            <element signature="e#6479#6684#0" expanded="true" />
+            <element signature="e#6683#6684#0" expanded="true" />
+            <element signature="e#6883#7044#0" expanded="true" />
+            <element signature="e#7043#7044#0" expanded="true" />
           </folding>
         </state>
       </provider>

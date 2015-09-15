@@ -1,6 +1,4 @@
-corn incongruent true
-banana congruent true
-banana incongruent true
-banana achromatic true
-corn congruent true
-corn achromatic true
+corn incongruent true corn
+banana incongruent true banana
+corn congruent true corn
+banana achromatic true banana
