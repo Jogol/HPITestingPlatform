@@ -1,6 +1,0 @@
-corn incongruent true
-banana congruent true
-banana incongruent true
-banana achromatic true
-corn congruent true
-corn achromatic true

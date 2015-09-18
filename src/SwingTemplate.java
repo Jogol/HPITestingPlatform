@@ -1,6 +1,14 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,271 +19,378 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
+import org.lwjgl.LWJGLException;
 
 // Swing Program Template
 //@SuppressWarnings("serial")
 public class SwingTemplate {
-    // Name-constants to define the various dimensions
-    public File[] list;
-    public ArrayList<File> aList;
-    public JFrame frame;
-    public JPanel panel;
-    public JLabel imageLabel;
-    public ImageIcon image;
-    public JLabel waitLabel;
-    public JTextField inputBox;
-    public final int waitTime = 2000;
-    public final int flashTime = 1000;
-    public Timer waitTimer;
-    public Timer flashTimer;
-    public File currentFile;
-    public PrintWriter writer;
-    public BufferedWriter bw;
-    public FileWriter fw;
-    // ......
+	// Name-constants to define the various dimensions
 
-    // private variables of UI components
-    // ......
+	/**
+	 * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte flytta
+	 * runt i GridBagConstraints layout :/ så den ligger helt fel.
+	 */
+	// public int completedImages = 0;
+	// public int totalImages = 0;
 
-    /** Constructor to setup the UI components 
-     *
-     */
-    public SwingTemplate(){
+	public Renderer renderer;
+	public File[] list;
+	public ArrayList<File> aList;
+	public JFrame frame;
+	public JPanel panel;
+	public JLabel imageLabel;
+	public ImageIcon image;
+	public JLabel waitLabel;
+	public JLabel counter;
+	public JTextField inputBox;
+	public final int waitTime = 1000;
 
-        frame = new JFrame();
-        panel = new JPanel();
-        frame.add(panel);
-        waitLabel = new JLabel("An image will appear shortly");
-        panel.add(waitLabel);
-        waitLabel.setVisible(false);
-        inputBox = new JTextField(20);
-        inputBox.setVisible(false);
-        panel.add(inputBox);
-        inputBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                handleInput(inputBox.getText());
-                inputBox.setVisible(false);
-                inputBox.setText("");
-                frame.revalidate();
-                try {
-                    testWarning();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
+	public final int frames = 1;
+	public final int flashTime = 4;
 
-        try {
-            fw = new FileWriter("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\results\\resultFile.txt");
-            bw = new BufferedWriter(fw);
+	public Timer waitTimer;
+	public Timer flashTimer;
+	public File currentFile;
+	public PrintWriter writer;
+	public BufferedWriter bw;
+	public FileWriter fw;
+	public String mainPath = "C:\\Users\\Emilio\\Workspace\\ProjektMDI";
+	Color background;
+	
+	// ......
 
-            //writer = new PrintWriter("/afs/nada.kth.se/home/7/u1k944b7/Desktop/results/resultFile.txt", "UTF-8");
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+	// private variables of UI components
+	// ......
 
-        waitTimer = new Timer(waitTime, new WaitForImage());
+	/**
+	 * Constructor to setup the UI components
+	 * 
+	 * @throws LWJGLException
+	 * 
+	 */
+	public SwingTemplate() throws LWJGLException {
+		renderer = new Renderer();
+		background = new Color(255, 255, 255);
+		frame = new JFrame();
+		frame.getContentPane().setLayout(new BorderLayout());
+		// panel = new JPanel(new GridBagLayout());
+		// panel.setBackground(background);
+		final Canvas canvas = new Canvas();
+		//canvas.setSize(new Dimension(800,600));
+		System.out.println(canvas.getSize());
+		frame.getContentPane().add(canvas,BorderLayout.CENTER);
+		
+		// frame.add(panel);
+		frame.setVisible(true);
+		waitLabel = new JLabel("An image will appear shortly");
+		frame.getContentPane().add(waitLabel, BorderLayout.SOUTH);
+		waitLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		waitLabel.setVisible(false);
+		
 
-        waitTimer.setRepeats(false);
+		inputBox = new JTextField(20);
+		inputBox.setFont(new Font("Arial", Font.PLAIN, 20));
+		inputBox.setVisible(false);
+		frame.getContentPane().add(inputBox, BorderLayout.SOUTH);
+		inputBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				handleInput(inputBox.getText());
+				inputBox.setVisible(false);
+				inputBox.setText("");
+				frame.revalidate();
+				try {
+					testWarning();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
-        flashTimer = new Timer(flashTime, new FlashImage());
+		/**
+		 * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte
+		 * flytta runt i GridBagConstraints layout :/ så den ligger helt fel.
+		 */
+		// counter = new JLabel("");
+		// panel.add(counter);
+		// counter.setVisible(false);
 
-        flashTimer.setRepeats(false);
+		try {
+			fw = new FileWriter(mainPath + "\\results\\resultFile.txt");
+			bw = new BufferedWriter(fw);
 
-        initUI();
+			// writer = new
+			// PrintWriter("/afs/nada.kth.se/home/7/u1k944b7/Desktop/results/resultFile.txt",
+			// "UTF-8");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    }
+		waitTimer = new Timer(waitTime, new WaitForImage());
 
-    public void handleInput(String text) {
-        //TODO handle text
-        Boolean correct = false;
+		waitTimer.setRepeats(false);
 
-        String fullName = currentFile.getName();
-        String[] parts = fullName.split("_|\\.");
+		flashTimer = new Timer(flashTime, new FlashImage());
 
-        if(text.toLowerCase().equals(parts[0])) {
-            correct = true;
-        }
+		flashTimer.setRepeats(false);
 
-        try {
-            bw.write(parts[0] + " " + parts[1] + " " + correct.toString() + "\n");
+		initUI();
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					renderer.createContext(canvas);
+					renderer.start();
+				} catch (LWJGLException e) {
+					System.exit(1);
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-//    	writer.println(parts[0] + " " + parts[1] + " " + correct.toString());
-//      	writer.println("test");
-        System.out.println("handler");
+	}
 
+	
+	public void handleInput(String text) {
+		// TODO handle text
+		Boolean correct = false;
 
-    }
+		String fullName = currentFile.getName();
+		String[] parts = fullName.split("_|\\.");
 
-    /**
-     * Step before shows the text "Next image in 5 seconds"
-     * This waits 5 seconds
-     * Then shows the image and starts next timer
-     */
-    class WaitForImage implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+		if (text.toLowerCase().equals(parts[0])) {
+			correct = true;
+		}
 
-            System.out.println("waittimer triggered");
-            image = new ImageIcon(currentFile.getAbsolutePath());
-            imageLabel = new JLabel(image);
-            //panel.remove(waitLabel);
-            waitLabel.setVisible(false);
-            panel.add(imageLabel);
-            frame.revalidate();
-            flashTimer.restart();
+		try {
+			bw.write(parts[0] + " " + parts[1] + " " + correct.toString() + " "
+					+ text.toLowerCase() + "\n");
 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// writer.println(parts[0] + " " + parts[1] + " " + correct.toString());
+		// writer.println("test");
+		System.out.println("handler");
 
-        }
-    }
+	}
 
-    /**
-     * Step before shows the image
-     * This waits short time
-     * Then hides the image and pulls up input box
-     */
-    class FlashImage implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+	/**
+	 * Step before shows the text "Next image in 5 seconds" This waits 5 seconds
+	 * Then shows the image and starts next timer
+	 */
+	class WaitForImage implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 
-            System.out.println("flashtimer triggered");
-            imageLabel.setIcon(null);
-            //imageLabel.setVisible(false);
+			System.out.println("waittimer triggered");
+			// image = new ImageIcon(currentFile.getAbsolutePath());
+			waitLabel.setVisible(false);
+			try {
+				renderer.showImage(currentFile, frames);
+			} catch (IllegalArgumentException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			inputBox.setVisible(true);
+			inputBox.requestFocus();
+			frame.revalidate();
 
-            inputBox.setVisible(true);
-            inputBox.requestFocus();
-            frame.revalidate();
+			// flashTimer.restart();
 
-        }
-    }
+			// Image preImage = toolkit.getImage(currentFile.getAbsolutePath());
+			// //Image scaledImage =
+			// preImage.getScaledInstance(panel.getWidth(),panel.getHeight(),Image.SCALE_SMOOTH);
+			// Image scaledImage =
+			// preImage.getScaledInstance(800,400,Image.SCALE_SMOOTH);
+			// image = new ImageIcon(scaledImage);
+			// imageLabel = new JLabel(image);
+			// //panel.remove(waitLabel);
+			// waitLabel.setVisible(false);
+			// panel.add(imageLabel, new GridBagConstraints());
+			// frame.revalidate();
+			// start = System.nanoTime();
+			// flashTimer.restart();
 
-    @SuppressWarnings("static-access")
-    private void initUI(){
-        createMenuBar();
+		}
+	}
 
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);  // Exit when close button clicked
-        frame.setTitle("Pilot Test"); // "this" JFrame sets title
-        frame.setExtendedState(frame.MAXIMIZED_BOTH);
-        frame.setVisible(true);   // show it
-    }
+	/**
+	 * Step before shows the image This waits short time Then hides the image
+	 * and pulls up input box
+	 */
+	class FlashImage implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 
-    private void createMenuBar() {
+			imageLabel.setIcon(null);
+			frame.revalidate();
+			// imageLabel.setVisible(false);
 
-        JMenuBar menubar = new JMenuBar();
-        ImageIcon icon = new ImageIcon("exit.png"); //TODO No image atm
+			inputBox.setVisible(true);
+			inputBox.requestFocus();
+			frame.revalidate();
 
-        JMenu file = new JMenu("File");
-        file.setMnemonic(KeyEvent.VK_F);
+		}
+	}
 
-        JMenuItem sMenu = new JMenuItem("Start Test");
-        sMenu.setMnemonic(KeyEvent.VK_S);
-        sMenu.setToolTipText("Start the experiment");
-        sMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                System.out.println("Started");
-                startTest();
-            }
-        });
+	@SuppressWarnings("static-access")
+	private void initUI() {
+		createMenuBar();
 
-        JMenuItem eMenuItem = new JMenuItem("Exit", icon);
-        eMenuItem.setMnemonic(KeyEvent.VK_E);
-        eMenuItem.setToolTipText("Exit application");
-        eMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                System.exit(0);
-            }
-        });
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE); // Exit when close
+																// button
+																// clicked
+		frame.setTitle("Pilot Test"); // "this" JFrame sets title
+		frame.setExtendedState(frame.MAXIMIZED_BOTH);
+		frame.setVisible(true); // show it
+	}
 
-        file.add(eMenuItem);
-        menubar.add(file);
-        menubar.add(sMenu);
+	private void createMenuBar() {
 
-        frame.setJMenuBar(menubar);
+		JMenuBar menubar = new JMenuBar();
+		ImageIcon icon = new ImageIcon("exit.png"); // TODO No image atm
 
-    }
+		JMenu file = new JMenu("File");
+		file.setMnemonic(KeyEvent.VK_F);
 
-    private void startTest() {
+		JMenuItem sMenu = new JMenuItem("Start Test");
+		sMenu.setMnemonic(KeyEvent.VK_S);
+		sMenu.setToolTipText("Start the experiment");
+		sMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.out.println("Started");
+				startTest();
+			}
+		});
 
-        initTest();
-        try {
-            testWarning();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		JMenuItem eMenuItem = new JMenuItem("Exit", icon);
+		eMenuItem.setMnemonic(KeyEvent.VK_E);
+		eMenuItem.setToolTipText("Exit application");
+		eMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+			}
+		});
 
+		file.add(eMenuItem);
+		menubar.add(file);
+		menubar.add(sMenu);
 
-    }
+		frame.setJMenuBar(menubar);
 
-    private void testWarning() throws IOException { //TODO loop?
+	}
 
-        if(aList.size() > 0) {
-            currentFile = aList.get(0); //TODO kolla om det finns bilder kvar
-            aList.remove(0);
+	private void startTest() {
+		// kanske fastnar här? start har en oändlig loop.
 
-            System.out.println("test");
-            waitLabel.setVisible(true);
-            frame.revalidate();
-            waitTimer.restart();
+		initTest();
+		try {
+			testWarning();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-            System.out.println("after");
-        } else {
-            testEnd();
-        }
+	}
 
+	private void testWarning() throws IOException { // TODO loop?
 
+		if (aList.size() > 0) {
+			currentFile = aList.get(0); // TODO kolla om det finns bilder kvar
+			aList.remove(0);
 
+			/**
+			 * Om vi vill ha en counter för antalet slutförda objekt. lyckas
+			 * inte flytta runt i GridBagConstraints layout :/ så den ligger
+			 * helt fel.
+			 */
+			// counter.setText(completedImages++ + "/" + totalImages);
 
-    }
+			System.out.println("test");
+			waitLabel.setVisible(true);
+			frame.revalidate();
+			waitTimer.restart();
 
-    public void testEnd() {
-        System.out.println("test end");
-        try {
-            bw.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //writer.close();
-    }
+			System.out.println("after");
+		} else {
+			testEnd();
+		}
 
-    private void initTest() {
+	}
 
-        File f = new File("D:\\Library\\Documents\\GitHub\\HPITestingPlatform\\images");
-        list = f.listFiles();
-        aList = new ArrayList<File>();
-        //TODO shuffle array
+	public void testEnd() {
+		System.out.println("test end");
+		try {
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// writer.close();
+	}
 
-        for(File file : list) {
-            aList.add(file);
-        }
+	private void initTest() {
 
-        Collections.shuffle(aList);
+		File f = new File(mainPath + "\\images");
+		list = f.listFiles();
 
+		/**
+		 * Om vi vill ha en counter för antalet slutförda objekt. lyckas inte
+		 * flytta runt i GridBagConstraints layout :/ så den ligger helt fel.
+		 */
+		// counter.setVisible(true);
+		// totalImages = list.length;
 
-    }
+		aList = new ArrayList<File>();
+		// TODO shuffle array
 
-    /** The entry main() method */
-    public static void main(String[] args) {
-        // Run GUI codes in the Event-Dispatching thread for thread safety
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new SwingTemplate();  // Let the constructor do the job
-            }
-        });
-    }
+		for (File file : list) {
+			aList.add(file);
+		}
+
+		Collections.shuffle(aList);
+
+	}
+
+	/** The entry main() method */
+	public static void main(String[] args) {
+		// Run GUI codes in the Event-Dispatching thread for thread safety
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new SwingTemplate();
+
+				} catch (LWJGLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // Let the constructor do the job
+			}
+		});
+
+	}
 }
