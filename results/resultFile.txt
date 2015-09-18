@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+=======
+corn incongruent true corn
+banana incongruent true banana
+corn congruent true corn
+banana achromatic true banana
+>>>>>>> origin/master
