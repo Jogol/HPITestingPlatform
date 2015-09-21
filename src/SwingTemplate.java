@@ -196,7 +196,7 @@ public class SwingTemplate {
 		}
 
 		try {
-			bw.write(parts[0] + " " + parts[1] + " " + correct.toString() + " "
+			bw.write(parts[0] + " " + parts[1] + " " + parts[2] + " " + correct.toString() + " "
 					+ newText.toLowerCase() + "\n");
 
 		} catch (IOException e) {

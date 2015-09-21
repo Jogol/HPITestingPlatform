@@ -1,0 +1,12 @@
+bird congruent LCD true bird
+bird achromatic LCD true bird
+bird incongruent LCD true bird
+bee congruent LCD true bee
+bee achromatic LCD false dasf
+banana congruent HCD true banana
+banana achromatic HCD false bbbb
+apple congruent HCD true apple
+apple incongruent HCD true apple
+banana incongruent HCD true banana
+apple achromatic HCD true apple
+bee incongruent LCD true bee
