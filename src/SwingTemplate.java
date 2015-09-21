@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -55,8 +56,10 @@ public class SwingTemplate {
 	public JLabel counter;
 	public JTextField inputBox;
 	public final int waitTime = 1000;
+	
+	public String ID;
 
-	public final int frames = 1;
+	public final int frames = 1; //st‰ller in antal frames som bilden visas!
 	public final int flashTime = 4;
 
 	public Timer waitTimer;
@@ -65,7 +68,7 @@ public class SwingTemplate {
 	public PrintWriter writer;
 	public BufferedWriter bw;
 	public FileWriter fw;
-	public String mainPath = "C:\\Users\\Emilio\\Workspace\\ProjektMDI";
+	public String mainPath = "C:\\Users\\Emilio\\IdeaProjects\\HPITestingPlatform"; //d‰r projektet ligger
 	Color background;
 	
 	// ......
@@ -80,6 +83,11 @@ public class SwingTemplate {
 	 * 
 	 */
 	public SwingTemplate() throws LWJGLException {
+		while (ID == null || ID.equals("")){
+			ID = JOptionPane.showInputDialog
+					(null,"<html>Enter your personal ID","");
+		}
+		
 		renderer = new Renderer();
 		background = new Color(255, 255, 255);
 		frame = new JFrame();
@@ -128,7 +136,7 @@ public class SwingTemplate {
 		// counter.setVisible(false);
 
 		try {
-			fw = new FileWriter(mainPath + "\\results\\resultFile.txt");
+			fw = new FileWriter(mainPath + "\\results\\resultFile" + ID + ".txt");
 			bw = new BufferedWriter(fw);
 
 			// writer = new
@@ -308,6 +316,7 @@ public class SwingTemplate {
 	}
 
 	private void startTest() {
+		
 		// kanske fastnar h√§r? start har en o√§ndlig loop.
 
 		initTest();
