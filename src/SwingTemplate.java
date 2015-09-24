@@ -68,7 +68,7 @@ public class SwingTemplate {
 	public PrintWriter writer;
 	public BufferedWriter bw;
 	public FileWriter fw;
-	public String mainPath = "C:\\Users\\Emilio\\IdeaProjects\\HPITestingPlatform"; //där projektet ligger
+	public String mainPath = "C:\\Users\\Emilio\\Documents\\GitHub\\HPITestingPlatform"; //där projektet ligger
 	Color background;
 	
 	// ......
@@ -83,6 +83,7 @@ public class SwingTemplate {
 	 * 
 	 */
 	public SwingTemplate() throws LWJGLException {
+		
 		while (ID == null || ID.equals("")){
 			ID = JOptionPane.showInputDialog
 					(null,"<html>Enter your personal ID","");
@@ -227,7 +228,7 @@ public class SwingTemplate {
 			}
 			inputBox.setVisible(true);
 			inputBox.requestFocus();
-			frame.revalidate();
+			//frame.revalidate();
 
 			// flashTimer.restart();
 

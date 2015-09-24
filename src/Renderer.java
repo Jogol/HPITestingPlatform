@@ -42,7 +42,7 @@ public class Renderer {
 
 	public void start() throws IllegalArgumentException, IOException {
 		System.out.println(canvas.getSize());
-		
+		int delay = 120;
 		int laps = -1;
 		while (!Display.isCloseRequested()) {
 			//canvas.setSize(new Dimension(800, 600));
@@ -57,14 +57,18 @@ public class Renderer {
 					}
 					texture = GLTexture.createObj(ImageIO.read(file),
 							GLTexture.FILTER_LINEAR);
+					delay = 120;
+					laps++;
 				} else {
-					// if (!showing) {
-					
-					showing = true;
-					texture.drawCentered(canvas.getWidth()/2, canvas.getHeight()/2, 400, 300, 0);
+					// if (!2showing) {
+					if (delay <= 0) {
+						showing = true;
+						texture.drawCentered(canvas.getWidth()/2, canvas.getHeight()/2, 400, 300, 0);
+						laps ++;
+					}
+					delay--;
 					// }
 				}
-				laps++;
 			} else {
 				laps = -1;
 				showing = false;
