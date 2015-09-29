@@ -137,7 +137,7 @@ public class SwingTemplate {
 		// counter.setVisible(false);
 
 		try {
-			fw = new FileWriter(mainPath + "\\results\\resultFile" + ID + ".txt");
+			fw = new FileWriter("results\\" + ID + ".txt");
 			bw = new BufferedWriter(fw);
 
 			// writer = new
@@ -227,6 +227,7 @@ public class SwingTemplate {
 				e1.printStackTrace();
 			}
 			inputBox.setVisible(true);
+			inputBox.setFont(new Font("Arial", Font.PLAIN,40));
 			inputBox.requestFocus();
 			//frame.revalidate();
 
@@ -367,7 +368,7 @@ public class SwingTemplate {
 
 	private void initTest() {
 
-		File f = new File(mainPath + "\\images");
+		File f = new File("images");
 		list = f.listFiles();
 
 		/**
